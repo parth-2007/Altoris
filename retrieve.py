@@ -12,10 +12,10 @@ def query(n):
     """
     # Made query and received assay id, execute query
     cursor.execute(query)
-    results = cursor.fetchall()
+    r = cursor.fetchall()
 
-    return results
-def genCSV():
+    return r
+def genCSV(results):
     output_file = "output.csv"
     # Generate and fill up CSV file with recently pulled data
     with open(output_file, 'w', newline='') as csvfile:
@@ -23,7 +23,7 @@ def genCSV():
         writer.writerow(['Canonical Smiles', 'Activity ID', 'Assay ID', 'Standard Relation',
                         'Standard Value', 'Standard Units', 'Standard Type', 'Molregno'])
         writer.writerows(results)
-def printResults():
+def printResults(results):
     # Print the results in command prompt
     for row in results:
         canonical_smiles, activity_id, assay_id, standard_relation, \
@@ -45,8 +45,8 @@ if __name__ == '__main__':
     if not input.isnumeric():
         print("Please enter an integer")
     else:
-        results = query(input)
-        genCSV()
-        printResults()
+        res = query(input)
+        genCSV(res)
+        printResults(res)
     cursor.close()
     conn.close()
