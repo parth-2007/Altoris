@@ -1,8 +1,7 @@
 import sqlite3
 import csv 
 
-def query():
-    n = input("Please enter the assay id:")
+def query(n):
     query = f"""
     SELECT cs.canonical_smiles, act.activity_id, act.assay_id, act.standard_relation,
         act.standard_value, act.standard_units, act.standard_type, act.molregno
@@ -39,12 +38,15 @@ def printResults():
         print("Standard Type:", standard_type)
         print("Molregno:", molregno)
 
-
 if __name__ == '__main__':
     conn = sqlite3.connect("chembl_33.db")
     cursor = conn.cursor()
-    results = query()
-    genCSV()
-    printResults()
+    input = input("Please enter the assay id:")
+    if not input.isnumeric():
+        print("Please enter an integer")
+    else:
+        results = query(input)
+        genCSV()
+        printResults()
     cursor.close()
     conn.close()
